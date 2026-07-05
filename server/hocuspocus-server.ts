@@ -9,7 +9,7 @@ const SYNC_JWT_SECRET = process.env.SYNC_JWT_SECRET as string;
 const MAX_UPDATE_BYTES = 2 * 1024 * 1024; // keep in sync with src/lib/zodSchemas.ts
 
 
-const dbUrl = process.env.DIRECT_URL || process.env.DATABASE_URL;
+const dbUrl = process.env.DATABASE_URL!;
 if (!dbUrl) throw new Error("Set DIRECT_URL (or DATABASE_URL) in your .env");
 
 const connectionUrl = new URL(dbUrl);
