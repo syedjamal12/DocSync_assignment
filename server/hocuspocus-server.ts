@@ -33,8 +33,7 @@ process.on("SIGINT", shutdown);
 process.on("SIGTERM", shutdown);
 
 const server = Server.configure({
-  port: Number(process.env.SYNC_SERVER_PORT ?? 1234),
-
+port: Number(process.env.PORT || process.env.SYNC_SERVER_PORT || 1234),
   
   debounce: 2000,
   maxDebounce: 10000,
@@ -110,4 +109,7 @@ const server = Server.configure({
 });
 
 server.listen();
-console.log(`Hocuspocus sync server running on port ${process.env.SYNC_SERVER_PORT ?? 1234}`);
+// console.log(`Hocuspocus sync server running on port ${process.env.SYNC_SERVER_PORT ?? 1234}`);
+const PORT = Number(process.env.PORT || process.env.SYNC_SERVER_PORT || 1234);
+
+console.log(`🚀 Hocuspocus running on port ${PORT}`);
