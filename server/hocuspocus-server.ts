@@ -111,5 +111,7 @@ port: Number(process.env.PORT || process.env.SYNC_SERVER_PORT || 1234),
 server.listen();
 // console.log(`Hocuspocus sync server running on port ${process.env.SYNC_SERVER_PORT ?? 1234}`);
 const PORT = Number(process.env.PORT || process.env.SYNC_SERVER_PORT || 1234);
+ console.log("SYNC URL in server:", process.env.NEXT_PUBLIC_SYNC_URL);
+
 
 console.log(`🚀 Hocuspocus running on port ${PORT}`);
