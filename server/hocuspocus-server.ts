@@ -40,6 +40,9 @@ port: Number(process.env.PORT || process.env.SYNC_SERVER_PORT || 1234),
 
   async onAuthenticate(data) {
     const { token, documentName } = data;
+    console.log("🔥 AUTH REQUEST");
+  console.log("Document:", documentName);
+  console.log("Token exists:",token);
     if (!token) throw new Error("Missing auth token");
 
     let userId: string;
@@ -74,6 +77,8 @@ port: Number(process.env.PORT || process.env.SYNC_SERVER_PORT || 1234),
 
   // --- LOAD latest state when the doc is first opened on this server -----
   async onLoadDocument(data) {
+      console.log("📄 LOAD", data.documentName);
+
     try {
       const record = await prisma.document.findUnique({
         where: { id: data.documentName },
@@ -91,6 +96,8 @@ port: Number(process.env.PORT || process.env.SYNC_SERVER_PORT || 1234),
 
   // --- VALIDATE + PERSIST every debounced update --------------------------
   async onStoreDocument(data) {
+      console.log("💾 STORE", data.documentName);
+
     const update = Y.encodeStateAsUpdate(data.document);
     if (update.byteLength > MAX_UPDATE_BYTES) {
       console.error(`Refusing to store oversized update (${update.byteLength} bytes) for ${data.documentName}`);
