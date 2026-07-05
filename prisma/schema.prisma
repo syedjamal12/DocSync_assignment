@@ -1,0 +1,63 @@
+// Prisma schema — runs against Supabase Postgres (connection string in .env)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id        String           @id @default(cuid())
+  email     String           @unique
+  password  String
+  name      String?
+  createdAt DateTime         @default(now())
+  documents Document[]       @relation("Owner")
+  access    DocumentAccess[]
+  versions  DocumentVersion[]
+}
+
+model Document {
+  id        String            @id @default(cuid())
+  title     String
+  ownerId   String
+  owner     User              @relation("Owner", fields: [ownerId], references: [id])
+  // latest merged Yjs binary state (source of truth for the "live" doc)
+  state     Bytes?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  access    DocumentAccess[]
+  versions  DocumentVersion[]
+}
+
+model DocumentAccess {
+  id         String   @id @default(cuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  role       Role
+  createdAt  DateTime @default(now())
+
+  @@unique([documentId, userId])
+}
+
+model DocumentVersion {
+  id         String   @id @default(cuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  state      Bytes
+  label      String?
+  createdBy  String
+  creator    User     @relation(fields: [createdBy], references: [id])
+  createdAt  DateTime @default(now())
+}
