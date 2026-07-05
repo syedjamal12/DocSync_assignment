@@ -52,8 +52,16 @@ export default function DocumentList({ docs }: { docs: Doc[] }) {
             <a href={`/doc/${d.id}`} className="min-w-0 flex-1 focus:outline-none">
               <span className="font-medium block truncate">{d.title}</span>
               <span className="text-xs text-neutral-500 block">
-                Updated {new Date(d.updatedAt).toLocaleString()}
-              </span>
+                Updated{" "}
+                {new Date(d.updatedAt).toLocaleString("en-IN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  hour12: false,
+                })}              </span>
             </a>
             <div className="flex items-center gap-2 shrink-0">
               <RoleBadge role={d.role} />

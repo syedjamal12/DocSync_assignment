@@ -67,7 +67,7 @@ export default function Editor({ documentId, role, syncToken, userName }: Props)
     };
   }, [documentId, ydoc]);
 
- 
+ console.log("SYNC URL:", process.env.NEXT_PUBLIC_SYNC_URL);
   const provider = useMemo(
     () =>
       new HocuspocusProvider({
