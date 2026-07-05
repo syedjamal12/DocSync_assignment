@@ -6,6 +6,7 @@ import { signSyncToken } from "@/lib/syncToken";
 import Editor from "@/components/Editor";
 import Navbar from "@/components/Navbar";
 import DocHeader from "@/components/DocHeader";
+import AIBanner from "@/components/AIBanner";
 
 export default async function DocPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -25,6 +26,8 @@ export default async function DocPage({ params }: { params: Promise<{ id: string
     <div>
       <Navbar userEmail={session.user.email} />
       <div className="mt-8 px-4 pb-16">
+          <AIBanner />
+
         <DocHeader documentId={id} initialTitle={doc.title} role={role} />
         <Editor
           documentId={id}
